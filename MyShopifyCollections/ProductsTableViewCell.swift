@@ -7,3 +7,15 @@
 //
 
 import Foundation
+import UIKit
+
+class ProductsTableViewCell: UITableViewCell {
+
+	@IBOutlet weak var productImage: UIImageView!
+
+	@IBOutlet weak var title: UILabel!
+
+	@IBOutlet weak var totalLabel: UILabel!
+	
+	@IBOutlet weak var collectionTitleLabel: UILabel!
+}

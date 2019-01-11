@@ -1,0 +1,6 @@
+framework module Pods_MyShopifyCollectionsTests {
+  umbrella header "Pods-MyShopifyCollectionsTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
