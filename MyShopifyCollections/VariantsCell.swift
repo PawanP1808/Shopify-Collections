@@ -11,12 +11,15 @@ import UIKit
 
 class VariantsCell: UITableViewCell {
 
-
 	@IBOutlet weak var title: UILabel!
-
 
 	@IBOutlet weak var price: UILabel!
 
-
 	@IBOutlet weak var inventory: UILabel!
+
+	func setupCell(title:String,price:String,inventory:Int) {
+		self.title.text = title
+		self.price.text = "$\(price)"
+		self.inventory.text = "Inventory:\(inventory)"
+	}
 }

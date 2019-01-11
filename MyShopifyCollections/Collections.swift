@@ -13,7 +13,6 @@ class Collections {
 
 	var data:[Product]?
 
-
 	init(json: [[String:Any]]) {
 		for data1 in json{
 			let product = Product(json: data1)

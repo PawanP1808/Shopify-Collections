@@ -13,4 +13,12 @@ class CollectionsTableViewCell: UITableViewCell {
 
 	@IBOutlet weak var title: UILabel!
 	@IBOutlet weak var collectionImage: UIImageView!
+
+	func setupCell(title:String) {
+		self.title.text = title
+	}
+
+	func setCellImage(forImage image:UIImage){
+		self.collectionImage.image = image
+	}
 }
