@@ -8,6 +8,8 @@
 
 import Foundation
 import Alamofire
+import AlamofireImage
+import UIKit
 
 class DataManager {
 	public static let shared = DataManager()
@@ -30,35 +32,30 @@ class DataManager {
 					completion(false,nil)
 					return
 			}
-
-			var data2:[Product]? = []
-			for data1 in customCollectionsArray{
-				let product = Product(json: data1)
-				data2?.append(product)
+			var products:[Product]? = []
+			for productJson in customCollectionsArray{
+				let product = Product(json: productJson)
+				products?.append(product)
 			}
-			completion(true,data2)
-
+			completion(true,products)
 		}
 	}
 
 	func getProductIdsForCollection(id:Int, _success completion:@escaping (Bool,[Int]?)->()) {
 		Alamofire.request(self.productsUrlPrefix + String(describing: id) + self.productsUrlSuffix, method: .get, encoding: JSONEncoding.default, headers:nil).responseJSON {
 			response in
-			guard let data = response.result.value as? [String:Any],let productsArray = data["collects"] as? [[String:Any]]
+			guard let data = response.result.value as? [String:Any],let collectsArray = data["collects"] as? [[String:Any]]
 				else {
 					completion(false,nil)
 					return
 			}
-
-			var data2:[Int] = []
-			for data1 in productsArray{
-				if let id = data1["product_id"] as? Int {
-					data2.append(id)
+			var ids:[Int] = []
+			for collect in collectsArray{
+				if let id = collect["product_id"] as? Int {
+					ids.append(id)
 				}
-
 			}
-			completion(true,data2)
-
+			completion(true,ids)
 		}
 	}
 
@@ -74,14 +71,22 @@ class DataManager {
 					completion(false,nil)
 					return
 			}
-
-			var data2:[Product]? = []
-			for data1 in productsArray{
-				let product = Product(json: data1)
-				data2?.append(product)
+			var productData:[Product]? = []
+			for productJson in productsArray{
+				let product = Product(json: productJson)
+				productData?.append(product)
 			}
-			completion(true,data2)
+			completion(true,productData)
+		}
+	}
 
+	func retrieveImage(forUrl url:String,_success completion:@escaping (Bool,UIImage?)->()){
+		Alamofire.request(url).responseImage { response in
+			guard let image = response.result.value else {
+				completion(false,nil)
+				return
+			}
+			completion(true,image)
 		}
 	}
 

@@ -8,28 +8,18 @@
 
 import Foundation
 import UIKit
-import Alamofire
-import AlamofireImage
-
-struct cellData {
- var opened = Bool()
-	var title = String()
-	var total = String()
-	var description = String()
-	var imageUrl = String()
-	var sectionData = [[String:Any]]()
-}
 
 class CollectionProductsViewController:UIViewController,UITableViewDelegate,UITableViewDataSource {
 
 	private let dataManager = DataManager.shared
+	private let productsCellHeight = CGFloat(integerLiteral: 80)
+	private let variantsCellHeight = CGFloat(integerLiteral: 30)
+
+	private var tableViewData = [cellData]()
 
 	@IBOutlet weak var productsTableView: UITableView!
 
 	var collectionID:Int?
-
-	var tableViewData = [cellData]()
-
 
 	override func viewDidLoad() {
 		guard let id = collectionID else {return}
@@ -58,21 +48,18 @@ class CollectionProductsViewController:UIViewController,UITableViewDelegate,UITa
 	 func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.row == 0 {
 			guard let cell = productsTableView.dequeueReusableCell(withIdentifier: "productsTableViewCell", for: indexPath as IndexPath) as? ProductsTableViewCell else { return UITableViewCell() }
-			cell.title.text = tableViewData[indexPath.section].title
-					cell.totalLabel.text = tableViewData[indexPath.section].description
-					cell.collectionTitleLabel.text = tableViewData[indexPath.section].total
-			Alamofire.request(tableViewData[indexPath.section].imageUrl).responseImage { response in
-							if let image = response.result.value {
-								cell.productImage.image = image
-							}
-						}
+			cell.setupCell(withData: tableViewData[indexPath.section])
+			dataManager.retrieveImage(forUrl: tableViewData[indexPath.section].imageUrl) { success,image in
+				guard success,let unwrappedImage = image else { return }
+				cell.setCellImage(forImage: unwrappedImage)
+			}
 			return cell
 		} else {
 			guard let cell = productsTableView.dequeueReusableCell(withIdentifier: "variantsCell", for: indexPath as IndexPath) as? VariantsCell else { return UITableViewCell() }
-			cell.title.text = tableViewData[indexPath.section].sectionData[indexPath.row - 1]["title"] as? String
-			guard let price = tableViewData[indexPath.section].sectionData[indexPath.row - 1]["price"] as? String,let inventory =  tableViewData[indexPath.section].sectionData[indexPath.row - 1]["inventory_quantity"] as? Int else { return cell}
-			cell.price.text = "$\(price)"
-			cell.inventory.text = "Inventory:\(inventory)"
+			guard let title = tableViewData[indexPath.section].sectionData[indexPath.row - 1]["title"] as? String,
+				let price = tableViewData[indexPath.section].sectionData[indexPath.row - 1]["price"] as? String,
+				let inventory =  tableViewData[indexPath.section].sectionData[indexPath.row - 1]["inventory_quantity"] as? Int else { return cell}
+			cell.setupCell(title: title, price: price, inventory: inventory)
 			return cell
 		}
 
@@ -93,13 +80,13 @@ class CollectionProductsViewController:UIViewController,UITableViewDelegate,UITa
 
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		if indexPath.row == 0 {
-			return 80
+			return self.productsCellHeight
 		} else {
-			return 30
+			return self.variantsCellHeight
 		}
 	}
 
-	private func setTableData(forData data:[Product] )-> Bool {
+	private func setTableData(forData data:[Product])-> Bool {
 		for product in data {
 			var total = 0
 			guard let variants = product.variants else { return false }

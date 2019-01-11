@@ -7,13 +7,13 @@
 //
 
 import UIKit
-import AlamofireImage
-import Alamofire
 
 class CollectionsViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
 	private let dataManager = DataManager.shared
 
 	private var collectionsData:[Product]?
+
+	private let collectionsCellHeight = CGFloat(integerLiteral: 55)
 
 	@IBOutlet weak var collectionsTableView: UITableView!
 	override func viewDidLoad() {
@@ -33,17 +33,15 @@ class CollectionsViewController: UIViewController,UITableViewDataSource,UITableV
 		}
 		guard let unwrappedCollection = collectionsData else { return cell }
 		let collection = unwrappedCollection[indexPath.row]
-		cell.title.text = collection.title
+		guard let unwrappedTitle = collection.title else { return cell}
+		cell.setupCell(title: unwrappedTitle)
 		guard let imageUrl = collection.image?["src"] as? String else {
 			return cell
 		}
-
-		Alamofire.request(imageUrl).responseImage { response in
-			if let image = response.result.value {
-				cell.collectionImage.image = image
-			}
+		dataManager.retrieveImage(forUrl: imageUrl) { success,image in
+			guard success,let unwrappedImage = image else { return }
+			cell.setCellImage(forImage: unwrappedImage)
 		}
-
 		return cell
 	}
 
@@ -63,7 +61,7 @@ class CollectionsViewController: UIViewController,UITableViewDataSource,UITableV
 	}
 
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 55
+		return self.collectionsCellHeight
 	}
 
 	func performSegueToVote(id:Int) {
