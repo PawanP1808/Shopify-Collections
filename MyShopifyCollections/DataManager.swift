@@ -25,14 +25,11 @@ class DataManager {
 
 		Alamofire.request(self.baseUrl, method: .get, encoding: JSONEncoding.default, headers:nil).responseJSON {
 			response in
-			guard let data = response.result.value as? [String:Any]
+			guard let data = response.result.value as? [String:Any],let customCollectionsArray = data["custom_collections"] as? [[String:Any]]
 				else {
 					completion(false,nil)
 					return
 			}
-			let customCollectionsArray = data["custom_collections"] as! [[String:Any]]
-
-			//			let collections = Collections(json: customCollectionsArray)
 
 			var data2:[Product]? = []
 			for data1 in customCollectionsArray{
@@ -45,23 +42,20 @@ class DataManager {
 	}
 
 	func getProductIdsForCollection(id:Int, _success completion:@escaping (Bool,[Int]?)->()) {
-
-		print(self.productsUrlPrefix + String(describing: id) + self.productsUrlSuffix)
 		Alamofire.request(self.productsUrlPrefix + String(describing: id) + self.productsUrlSuffix, method: .get, encoding: JSONEncoding.default, headers:nil).responseJSON {
 			response in
-			guard let data = response.result.value as? [String:Any]
+			guard let data = response.result.value as? [String:Any],let productsArray = data["collects"] as? [[String:Any]]
 				else {
 					completion(false,nil)
 					return
 			}
-			let productsArray = data["collects"] as! [[String:Any]]
-
-			//			let collections = Collections(json: customCollectionsArray)
 
 			var data2:[Int] = []
 			for data1 in productsArray{
-				let id = data1["product_id"] as! Int
-				data2.append(id)
+				if let id = data1["product_id"] as? Int {
+					data2.append(id)
+				}
+
 			}
 			completion(true,data2)
 
@@ -73,16 +67,13 @@ class DataManager {
 		for id in ids {
 			str += String(describing: id) + ","
 		}
-		print(self.productsDataUrlPrefix + str + self.productsDetailsUrlSuffix)
 		Alamofire.request(self.productsDataUrlPrefix + str + self.productsDetailsUrlSuffix, method: .get, encoding: JSONEncoding.default, headers:nil).responseJSON {
 			response in
-			guard let data = response.result.value as? [String:Any]
+			guard let data = response.result.value as? [String:Any], let productsArray = data["products"] as? [[String:Any]]
 				else {
 					completion(false,nil)
 					return
 			}
-			let productsArray = data["products"] as! [[String:Any]]
-
 
 			var data2:[Product]? = []
 			for data1 in productsArray{
