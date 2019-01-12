@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  CollectionsViewController.swift
 //  MyShopifyCollections
 //
 //  Created by Pawan Patel on 2019-01-10.
@@ -9,40 +9,40 @@
 import UIKit
 
 class CollectionsViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
-	private let dataManager = DataManager.shared
 
 	private var collectionsData:[Product]?
 
 	private let collectionsCellHeight = CGFloat(integerLiteral: 55)
 
+	private let collectionCellIdentifier = "collectionTableViewCell"
+
+	private let collectionsProductViewController = "collectionProductsViewController"
+
+	private var activityIndicator:UIActivityIndicatorView? = nil
+
 	@IBOutlet weak var collectionsTableView: UITableView!
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		self.activityIndicator = self.showSpinner()
+		let dataManager = DataManager()
 		dataManager.getCollections() { success,data in
-			if (success) {
+			guard success else { return }
 				self.collectionsData = data
 				self.collectionsTableView.reloadData()
-			}
-
+			self.hideModalSpinner(indicator: self.activityIndicator)
 		}
 	}
 
+	//MARK:TABLEVIEW DELEGATES
 	 func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		guard let cell = collectionsTableView.dequeueReusableCell(withIdentifier: "collectionTableViewCell", for: indexPath as IndexPath) as? CollectionsTableViewCell else {
+		guard let collectionCell = collectionsTableView.dequeueReusableCell(withIdentifier: self.collectionCellIdentifier, for: indexPath as IndexPath) as? CollectionsTableViewCell else {
 			return UITableViewCell()
 		}
-		guard let unwrappedCollection = collectionsData else { return cell }
+		guard let unwrappedCollection = collectionsData else { return collectionCell }
 		let collection = unwrappedCollection[indexPath.row]
-		guard let unwrappedTitle = collection.title else { return cell}
-		cell.setupCell(title: unwrappedTitle)
-		guard let imageUrl = collection.image?["src"] as? String else {
-			return cell
-		}
-		dataManager.retrieveImage(forUrl: imageUrl) { success,image in
-			guard success,let unwrappedImage = image else { return }
-			cell.setCellImage(forImage: unwrappedImage)
-		}
-		return cell
+		collectionCell.setupCell(withData: collection)
+		return collectionCell
 	}
 
 	 func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -57,15 +57,16 @@ class CollectionsViewController: UIViewController,UITableViewDataSource,UITableV
 		guard let unwrappedCollection = collectionsData else { return }
 		let collection = unwrappedCollection[indexPath.row]
 		guard let id = collection.id else { return }
-		self.performSegueToVote(id: id)
+		self.performSegueToCollectionProducts(id: id)
 	}
 
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		return self.collectionsCellHeight
 	}
 
-	func performSegueToVote(id:Int) {
-		guard let productsVc = storyboard?.instantiateViewController(withIdentifier: "collectionProductsViewController") as? CollectionProductsViewController else { return }
+	//MARK: SEGUE TO COLLECTION PRODUCTS
+	func performSegueToCollectionProducts(id:Int) {
+		guard let productsVc = storyboard?.instantiateViewController(withIdentifier: self.collectionsProductViewController) as? CollectionProductsViewController else { return }
 		productsVc.collectionID = id
 		navigationController?.pushViewController(productsVc, animated: true)
 	}

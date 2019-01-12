@@ -29,12 +29,13 @@ class ProductsTableViewCell: UITableViewCell {
 	@IBOutlet weak var collectionTitleLabel: UILabel!
 
 	func setupCell(withData data:cellData) {
+		let dataManager = DataManager()
 		self.title.text = data.title
 		self.totalLabel.text = data.description
 		self.collectionTitleLabel.text = data.total
-	}
-
-	func setCellImage(forImage image:UIImage){
-		self.productImage.image = image
+		dataManager.retrieveImage(forUrl: data.imageUrl) { success,image in
+			guard success,let unwrappedImage = image else { return }
+			self.productImage.image = unwrappedImage
+		}
 	}
 }
