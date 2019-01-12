@@ -14,11 +14,18 @@ class CollectionsTableViewCell: UITableViewCell {
 	@IBOutlet weak var title: UILabel!
 	@IBOutlet weak var collectionImage: UIImageView!
 
-	func setupCell(title:String) {
-		self.title.text = title
+	func setupCell(withData collection:Product) {
+
+		let dataManager = DataManager()
+		guard let unwrappedTitle = collection.title else { return }
+		self.title.text = unwrappedTitle
+		guard let imageUrl = collection.image?["src"] as? String else {
+			return 
+		}
+		dataManager.retrieveImage(forUrl: imageUrl) { success,image in
+			guard success,let unwrappedImage = image else { return }
+			self.collectionImage.image = unwrappedImage
+		}
 	}
 
-	func setCellImage(forImage image:UIImage){
-		self.collectionImage.image = image
-	}
 }

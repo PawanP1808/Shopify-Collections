@@ -17,7 +17,10 @@ class VariantsCell: UITableViewCell {
 
 	@IBOutlet weak var inventory: UILabel!
 
-	func setupCell(title:String,price:String,inventory:Int) {
+	func setupCell(withData data:[String:Any]) {
+		guard let title = data["title"] as? String,
+			let price = data["price"] as? String,
+			let inventory =  data["inventory_quantity"] as? Int else { return  }
 		self.title.text = title
 		self.price.text = "$\(price)"
 		self.inventory.text = "Inventory:\(inventory)"

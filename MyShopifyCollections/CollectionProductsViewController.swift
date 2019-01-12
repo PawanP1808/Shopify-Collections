@@ -11,28 +11,35 @@ import UIKit
 
 class CollectionProductsViewController:UIViewController,UITableViewDelegate,UITableViewDataSource {
 
-	private let dataManager = DataManager.shared
 	private let productsCellHeight = CGFloat(integerLiteral: 80)
 	private let variantsCellHeight = CGFloat(integerLiteral: 30)
+	private let productsTableViewCellIdentifier = "productsTableViewCell"
+	private let variantsCellIdentifier = "variantsCell"
+
 
 	private var tableViewData = [cellData]()
-
-	@IBOutlet weak var productsTableView: UITableView!
+	private var activityIndicator:UIActivityIndicatorView? = nil
 
 	var collectionID:Int?
 
+	@IBOutlet weak var productsTableView: UITableView!
+
+
 	override func viewDidLoad() {
+		self.activityIndicator = self.showSpinner()
 		guard let id = collectionID else {return}
+		let dataManager = DataManager()
 		dataManager.getProductIdsForCollection(id: id) { success,data in
 			guard success,let unwrappedIds = data else { return }
-				self.dataManager.getProductDataForIds(ids: unwrappedIds){ success, data in
+				dataManager.getProductDataForIds(ids: unwrappedIds){ success, data in
 					guard success, let unwrappedData = data, self.setTableData(forData: unwrappedData) else { return }
 					self.productsTableView.reloadData()
+					self.hideModalSpinner(indicator: self.activityIndicator)
 				}
-
 		}
 	}
 
+	//MARK:TABLEVIEW DELEGATES
 	func numberOfSections(in tableView: UITableView) -> Int {
 		return tableViewData.count
 	}
@@ -47,35 +54,24 @@ class CollectionProductsViewController:UIViewController,UITableViewDelegate,UITa
 
 	 func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.row == 0 {
-			guard let cell = productsTableView.dequeueReusableCell(withIdentifier: "productsTableViewCell", for: indexPath as IndexPath) as? ProductsTableViewCell else { return UITableViewCell() }
-			cell.setupCell(withData: tableViewData[indexPath.section])
-			dataManager.retrieveImage(forUrl: tableViewData[indexPath.section].imageUrl) { success,image in
-				guard success,let unwrappedImage = image else { return }
-				cell.setCellImage(forImage: unwrappedImage)
-			}
-			return cell
+			guard let productCell = productsTableView.dequeueReusableCell(withIdentifier: self.productsTableViewCellIdentifier, for: indexPath as IndexPath) as? ProductsTableViewCell else { return UITableViewCell() }
+			productCell.setupCell(withData: tableViewData[indexPath.section])
+			return productCell
 		} else {
-			guard let cell = productsTableView.dequeueReusableCell(withIdentifier: "variantsCell", for: indexPath as IndexPath) as? VariantsCell else { return UITableViewCell() }
-			guard let title = tableViewData[indexPath.section].sectionData[indexPath.row - 1]["title"] as? String,
-				let price = tableViewData[indexPath.section].sectionData[indexPath.row - 1]["price"] as? String,
-				let inventory =  tableViewData[indexPath.section].sectionData[indexPath.row - 1]["inventory_quantity"] as? Int else { return cell}
-			cell.setupCell(title: title, price: price, inventory: inventory)
-			return cell
+			guard let variantCell = productsTableView.dequeueReusableCell(withIdentifier: self.variantsCellIdentifier, for: indexPath as IndexPath) as? VariantsCell else { return UITableViewCell() }
+			variantCell.setupCell(withData:  tableViewData[indexPath.section].sectionData[indexPath.row - 1])
+			return variantCell
 		}
-
 	}
 
 	 func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		let sections = IndexSet.init(integer: indexPath.section)
 		if tableViewData[indexPath.section].opened == true {
 			tableViewData[indexPath.section].opened = false
-			let sections = IndexSet.init(integer: indexPath.section)
-			productsTableView.reloadSections(sections, with: .none)
 		} else {
 			tableViewData[indexPath.section].opened = true
-			let sections = IndexSet.init(integer: indexPath.section)
-			productsTableView.reloadSections(sections, with: .none)
 		}
-
+		productsTableView.reloadSections(sections, with: .none)
 	}
 
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -86,6 +82,7 @@ class CollectionProductsViewController:UIViewController,UITableViewDelegate,UITa
 		}
 	}
 
+	//MARK: SETUP PRODUCTS TABLE DATA
 	private func setTableData(forData data:[Product])-> Bool {
 		for product in data {
 			var total = 0
