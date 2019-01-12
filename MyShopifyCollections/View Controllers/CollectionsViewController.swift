@@ -56,8 +56,7 @@ class CollectionsViewController: UIViewController,UITableViewDataSource,UITableV
 		self.collectionsTableView.deselectRow(at: indexPath, animated: true)
 		guard let unwrappedCollection = collectionsData else { return }
 		let collection = unwrappedCollection[indexPath.row]
-		guard let id = collection.id else { return }
-		self.performSegueToCollectionProducts(id: id)
+		self.performSegueToCollectionProducts(withData: collection)
 	}
 
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -65,9 +64,9 @@ class CollectionsViewController: UIViewController,UITableViewDataSource,UITableV
 	}
 
 	//MARK: SEGUE TO COLLECTION PRODUCTS
-	func performSegueToCollectionProducts(id:Int) {
+	func performSegueToCollectionProducts(withData collectionData:Product) {
 		guard let productsVc = storyboard?.instantiateViewController(withIdentifier: self.collectionsProductViewController) as? CollectionProductsViewController else { return }
-		productsVc.collectionID = id
+		productsVc.collectionData = collectionData
 		navigationController?.pushViewController(productsVc, animated: true)
 	}
 }

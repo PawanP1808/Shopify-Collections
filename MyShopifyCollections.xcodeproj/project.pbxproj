@@ -131,19 +131,12 @@
 			isa = PBXGroup;
 			children = (
 				87691F4921E8122300CB0F28 /* AppDelegate.swift */,
-				87691F4B21E8122300CB0F28 /* CollectionsViewController.swift */,
-				87691F4D21E8122300CB0F28 /* Main.storyboard */,
-				87691F5021E8122400CB0F28 /* Assets.xcassets */,
-				87691F5221E8122400CB0F28 /* LaunchScreen.storyboard */,
 				87691F5521E8122400CB0F28 /* Info.plist */,
-				87691F7721E8141200CB0F28 /* DataManager.swift */,
-				87691F7921E8143900CB0F28 /* Collections.swift */,
-				87691F7B21E8146400CB0F28 /* Product.swift */,
-				87691F7D21E814BA00CB0F28 /* CollectionsTableViewCell.swift */,
-				87691F7F21E816EE00CB0F28 /* CollectionProductsViewController.swift */,
-				87691F8121E818AF00CB0F28 /* ProductsTableViewCell.swift */,
-				87691F8321E8BD4400CB0F28 /* VariantsCell.swift */,
-				87691F8521E912F800CB0F28 /* Extensions.swift */,
+				87E498EF21EAAEFA00382F15 /* Client */,
+				87E498EE21EAAE8300382F15 /* Views */,
+				87E498ED21EAAE5F00382F15 /* View Controllers */,
+				87E498EC21EAAE4900382F15 /* Supporting Files */,
+				87E498EB21EAADDC00382F15 /* Model */,
 			);
 			path = MyShopifyCollections;
 			sourceTree = "<group>";
@@ -164,6 +157,53 @@
 				87691F6B21E8122400CB0F28 /* Info.plist */,
 			);
 			path = MyShopifyCollectionsUITests;
+			sourceTree = "<group>";
+		};
+		87E498EB21EAADDC00382F15 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				87691F7921E8143900CB0F28 /* Collections.swift */,
+				87691F7B21E8146400CB0F28 /* Product.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		87E498EC21EAAE4900382F15 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				87691F5021E8122400CB0F28 /* Assets.xcassets */,
+				87691F8521E912F800CB0F28 /* Extensions.swift */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		87E498ED21EAAE5F00382F15 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				87691F4B21E8122300CB0F28 /* CollectionsViewController.swift */,
+				87691F7F21E816EE00CB0F28 /* CollectionProductsViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		87E498EE21EAAE8300382F15 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				87691F7D21E814BA00CB0F28 /* CollectionsTableViewCell.swift */,
+				87691F8121E818AF00CB0F28 /* ProductsTableViewCell.swift */,
+				87691F8321E8BD4400CB0F28 /* VariantsCell.swift */,
+				87691F4D21E8122300CB0F28 /* Main.storyboard */,
+				87691F5221E8122400CB0F28 /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		87E498EF21EAAEFA00382F15 /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				87691F7721E8141200CB0F28 /* DataManager.swift */,
+			);
+			path = Client;
 			sourceTree = "<group>";
 		};
 		88FEDE5DDE604053FF5CEA60 /* Pods */ = {

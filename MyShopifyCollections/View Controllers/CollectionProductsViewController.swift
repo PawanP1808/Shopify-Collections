@@ -20,23 +20,65 @@ class CollectionProductsViewController:UIViewController,UITableViewDelegate,UITa
 	private var tableViewData = [cellData]()
 	private var activityIndicator:UIActivityIndicatorView? = nil
 
-	var collectionID:Int?
+	var collectionData:Product?
+	var dataManager:DataManager?
 
 	@IBOutlet weak var productsTableView: UITableView!
 
+	@IBOutlet weak var collectionImageView: UIImageView!
+
+
+	@IBOutlet weak var headerView: UIView!
+
+	@IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
+
+	@IBOutlet weak var headerViewTopConstraint: NSLayoutConstraint!
+
+	@IBOutlet weak var collectionTitleLabel: UILabel!
+
+	
+	@IBOutlet weak var collectionDescriptionLabel: UILabel!
+
+
+	@IBOutlet weak var descLabelHeightConstraint: NSLayoutConstraint!
 
 	override func viewDidLoad() {
+		self.dataManager = DataManager()
+		self.setupHeader()
+		self.retrieveTableData()
+	}
+
+	private func retrieveTableData(){
 		self.activityIndicator = self.showSpinner()
-		guard let id = collectionID else {return}
-		let dataManager = DataManager()
-		dataManager.getProductIdsForCollection(id: id) { success,data in
+		guard let collection = self.collectionData,let id = collection.id else { return }
+		self.dataManager?.getProductIdsForCollection(id: id) { success,data in
 			guard success,let unwrappedIds = data else { return }
-				dataManager.getProductDataForIds(ids: unwrappedIds){ success, data in
-					guard success, let unwrappedData = data, self.setTableData(forData: unwrappedData) else { return }
-					self.productsTableView.reloadData()
-					self.hideModalSpinner(indicator: self.activityIndicator)
-				}
+			self.dataManager?.getProductDataForIds(ids: unwrappedIds){ success, data in
+				guard success, let unwrappedData = data, self.setTableData(forData: unwrappedData) else { return }
+				self.productsTableView.reloadData()
+				self.hideModalSpinner(indicator: self.activityIndicator)
+			}
 		}
+
+	}
+
+	private func setupHeader() {
+		guard let collection = self.collectionData else { return }
+		if collection.bodyHtml == "" {
+			self.headerView.frame = CGRect(x: 0, y: 0, width: self.headerView.frame.width, height: self.headerView.frame.height - self.collectionDescriptionLabel.frame.height)
+			descLabelHeightConstraint.constant = 0
+			self.headerView.layoutIfNeeded()
+		} else {
+			collectionDescriptionLabel.text = collection.bodyHtml
+		}
+		guard let imageUrl = collection.image?["src"] as? String else {
+			return
+		}
+		dataManager?.retrieveImage(forUrl: imageUrl) {success,image in
+			self.collectionImageView.image = image
+		}
+		collectionTitleLabel.text = collection.title
+		self.productsTableView.contentInset = UIEdgeInsets(top: headerView.frame.height, left: 0, bottom: 0, right: 0)
 	}
 
 	//MARK:TABLEVIEW DELEGATES
@@ -79,6 +121,17 @@ class CollectionProductsViewController:UIViewController,UITableViewDelegate,UITa
 			return self.productsCellHeight
 		} else {
 			return self.variantsCellHeight
+		}
+	}
+
+	func scrollViewDidScroll(_ scrollView: UIScrollView) {
+		let offset = scrollView.contentOffset.y
+		if offset>headerView.frame.height - 10{
+			headerViewTopConstraint.constant = headerView.frame.height + offset - 10
+			headerView.layoutIfNeeded()
+		} else if offset<0 {
+			headerViewTopConstraint.constant = headerView.frame.height + offset - 10
+			headerView.layoutIfNeeded()
 		}
 	}
 
