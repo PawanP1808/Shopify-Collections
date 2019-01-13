@@ -9,7 +9,9 @@
 import Foundation
 import UIKit
 
+// MARK: -- Handles showing spinner while data is being retieved from server
 extension UIViewController {
+	
 	func showSpinner() ->UIActivityIndicatorView{
 		UIApplication.shared.beginIgnoringInteractionEvents() // user cannot interact with the app while the spinner is visible
 		let actInd: UIActivityIndicatorView = UIActivityIndicatorView()

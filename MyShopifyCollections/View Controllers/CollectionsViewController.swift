@@ -10,26 +10,28 @@ import UIKit
 
 class CollectionsViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
 
-	private var collectionsData:[Product]?
-
-	private let collectionsCellHeight = CGFloat(integerLiteral: 55)
-
-	private let collectionCellIdentifier = "collectionTableViewCell"
-
-	private let collectionsProductViewController = "collectionProductsViewController"
-
-	private var activityIndicator:UIActivityIndicatorView? = nil
-
+	// MARK: -- IBOutlets
 	@IBOutlet weak var collectionsTableView: UITableView!
+
+	// MARK: -- Properties
+	private var collectionsData:[Collections]?
+	private let collectionsCellHeight = CGFloat(integerLiteral: 55)
+	private let collectionCellIdentifier = "collectionTableViewCell"
+	private let collectionsProductViewController = "collectionProductsViewController"
+	private var activityIndicator:UIActivityIndicatorView? = nil
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		self.retrieveTableData()
+	}
+
+	private func retrieveTableData() {
 		self.activityIndicator = self.showSpinner()
 		let dataManager = DataManager()
 		dataManager.getCollections() { success,data in
 			guard success else { return }
-				self.collectionsData = data
-				self.collectionsTableView.reloadData()
+			self.collectionsData = data
+			self.collectionsTableView.reloadData()
 			self.hideModalSpinner(indicator: self.activityIndicator)
 		}
 	}
@@ -64,7 +66,7 @@ class CollectionsViewController: UIViewController,UITableViewDataSource,UITableV
 	}
 
 	//MARK: SEGUE TO COLLECTION PRODUCTS
-	func performSegueToCollectionProducts(withData collectionData:Product) {
+	func performSegueToCollectionProducts(withData collectionData:Collections) {
 		guard let productsVc = storyboard?.instantiateViewController(withIdentifier: self.collectionsProductViewController) as? CollectionProductsViewController else { return }
 		productsVc.collectionData = collectionData
 		navigationController?.pushViewController(productsVc, animated: true)

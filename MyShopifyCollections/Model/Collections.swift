@@ -11,12 +11,17 @@ import Foundation
 
 class Collections {
 
-	var data:[Product]?
+	var id:Int?
+	var title:String?
+	var bodyHtml:String?
+	var imageUrl:String?
 
-	init(json: [[String:Any]]) {
-		for data1 in json{
-			let product = Product(json: data1)
-			self.data?.append(product)
+	init(json: [String:Any]) {
+		self.id = json["id"] as? Int
+		self.title = json["title"] as? String
+		self.bodyHtml = json["body_html"] as? String
+		if let image = json["image"] as? [String:Any] {
+			self.imageUrl = image["src"] as? String
 		}
 	}
 }
