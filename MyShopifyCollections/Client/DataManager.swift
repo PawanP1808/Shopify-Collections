@@ -22,8 +22,7 @@ class DataManager {
 
 	private let productsDetailsUrlSuffix = "&page=1&access_token=c32313df0d0ef512ca64d5b336a0d7c6"
 
-	func getCollections( _success completion:@escaping (Bool,[Product]?)->()) {
-
+	func getCollections( _success completion:@escaping (Bool,[Collections]?)->()) {
 		Alamofire.request(self.baseUrl, method: .get, encoding: JSONEncoding.default, headers:nil).responseJSON {
 			response in
 			guard let data = response.result.value as? [String:Any],let customCollectionsArray = data["custom_collections"] as? [[String:Any]]
@@ -31,16 +30,16 @@ class DataManager {
 					completion(false,nil)
 					return
 			}
-			var products:[Product]? = []
+			var products:[Collections]? = []
 			for productJson in customCollectionsArray{
-				let product = Product(json: productJson)
+				let product = Collections(json: productJson)
 				products?.append(product)
 			}
 			completion(true,products)
 		}
 	}
 
-	func getProductIdsForCollection(id:Int, _success completion:@escaping (Bool,[Int]?)->()) {
+	func getProductIds(forCollection id:Int, _success completion:@escaping (Bool,[Int]?)->()) {
 		Alamofire.request(self.productsUrlPrefix + String(describing: id) + self.productsUrlSuffix, method: .get, encoding: JSONEncoding.default, headers:nil).responseJSON {
 			response in
 			guard let data = response.result.value as? [String:Any],let collectsArray = data["collects"] as? [[String:Any]]
@@ -58,24 +57,28 @@ class DataManager {
 		}
 	}
 
-	func getProductDataForIds( ids:[Int],_success completion:@escaping (Bool,[Product]?)->()) {
-		var str = ""
-		for id in ids {
-			str += String(describing: id) + ","
-		}
-		Alamofire.request(self.productsDataUrlPrefix + str + self.productsDetailsUrlSuffix, method: .get, encoding: JSONEncoding.default, headers:nil).responseJSON {
-			response in
-			guard let data = response.result.value as? [String:Any], let productsArray = data["products"] as? [[String:Any]]
-				else {
-					completion(false,nil)
-					return
+	func getProductData(forId id:Int,_success completion:@escaping (Bool,[Product]?)->()) {
+		self.getProductIds(forCollection: id) { success,data in
+			guard success,let unwrappedIds = data else { return }
+			var str = ""
+			for id in unwrappedIds {
+				str += String(describing: id) + ","
 			}
-			var productData:[Product]? = []
-			for productJson in productsArray{
-				let product = Product(json: productJson)
-				productData?.append(product)
+			str.removeLast() //removes last comma
+			Alamofire.request(self.productsDataUrlPrefix + str + self.productsDetailsUrlSuffix, method: .get, encoding: JSONEncoding.default, headers:nil).responseJSON {
+				response in
+				guard let data = response.result.value as? [String:Any], let productsArray = data["products"] as? [[String:Any]]
+					else {
+						completion(false,nil)
+						return
+				}
+				var productData:[Product]? = []
+				for productJson in productsArray{
+					let product = Product(json: productJson)
+					productData?.append(product)
+				}
+				completion(true,productData)
 			}
-			completion(true,productData)
 		}
 	}
 

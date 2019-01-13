@@ -15,7 +15,7 @@ struct cellData {
 	var total = String()
 	var description = String()
 	var imageUrl = String()
-	var sectionData = [[String:Any]]()
+	var sectionData = [Variants]()
 }
 
 class ProductsTableViewCell: UITableViewCell {

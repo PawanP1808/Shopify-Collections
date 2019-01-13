@@ -12,15 +12,19 @@ class Product {
 	var id:Int?
 	var title:String?
 	var bodyHtml:String?
-	var image:[String:Any]?
-	var variants:[[String:Any]]?
+	var imageUrl:String?
+	var variants = [Variants]()
 
 	init(json: [String:Any]) {
 		self.id = json["id"] as? Int
 		self.title = json["title"] as? String
 		self.bodyHtml = json["body_html"] as? String
-		self.image = json["image"] as? [String:Any] ?? nil
-		let variants = json["variants"] as? [[String:Any]]
-		self.variants = variants
+		if let image = json["image"] as? [String:Any] {
+			self.imageUrl = image["src"] as? String
+		}
+		guard let variants = json["variants"] as? [[String:Any]] else { return }
+		for variant in variants {
+			self.variants.append(Variants(json: variant))
+		}
 	}
 }

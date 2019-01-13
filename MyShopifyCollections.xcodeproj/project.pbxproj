@@ -25,6 +25,7 @@
 		87691F8221E818AF00CB0F28 /* ProductsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87691F8121E818AF00CB0F28 /* ProductsTableViewCell.swift */; };
 		87691F8421E8BD4400CB0F28 /* VariantsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87691F8321E8BD4400CB0F28 /* VariantsCell.swift */; };
 		87691F8621E912F800CB0F28 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87691F8521E912F800CB0F28 /* Extensions.swift */; };
+		87E498F121EB967C00382F15 /* Variants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E498F021EB967C00382F15 /* Variants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		87691F8121E818AF00CB0F28 /* ProductsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsTableViewCell.swift; sourceTree = "<group>"; };
 		87691F8321E8BD4400CB0F28 /* VariantsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariantsCell.swift; sourceTree = "<group>"; };
 		87691F8521E912F800CB0F28 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		87E498F021EB967C00382F15 /* Variants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Variants.swift; sourceTree = "<group>"; };
 		94628FB43E99BF37B63C6191 /* Pods-MyShopifyCollectionsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyShopifyCollectionsUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyShopifyCollectionsUITests/Pods-MyShopifyCollectionsUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -164,6 +166,7 @@
 			children = (
 				87691F7921E8143900CB0F28 /* Collections.swift */,
 				87691F7B21E8146400CB0F28 /* Product.swift */,
+				87E498F021EB967C00382F15 /* Variants.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 				87691F8421E8BD4400CB0F28 /* VariantsCell.swift in Sources */,
 				87691F8221E818AF00CB0F28 /* ProductsTableViewCell.swift in Sources */,
 				87691F7A21E8143900CB0F28 /* Collections.swift in Sources */,
+				87E498F121EB967C00382F15 /* Variants.swift in Sources */,
 				87691F7E21E814BA00CB0F28 /* CollectionsTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
