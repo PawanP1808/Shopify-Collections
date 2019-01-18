@@ -12,7 +12,9 @@ class CollectionsViewController: UIViewController,UITableViewDataSource,UITableV
 
 	// MARK: -- IBOutlets
 	@IBOutlet weak var collectionsTableView: UITableView!
-
+	
+	@IBOutlet weak var noResultsLabel: UILabel!
+	
 	// MARK: -- Properties
 	private var collectionsData:[Collections]?
 	private var currentCollectionsData:[Collections]?
@@ -75,6 +77,11 @@ class CollectionsViewController: UIViewController,UITableViewDataSource,UITableV
 			guard let title = collection.title?.lowercased() else { return true }
 			return title.contains(searchText.lowercased())
 		})
+		if currentCollectionsData?.count == 0 {
+			self.noResultsLabel.isHidden = false
+		} else {
+			self.noResultsLabel.isHidden = true
+		}
 		collectionsTableView.reloadData()
 	}
 
