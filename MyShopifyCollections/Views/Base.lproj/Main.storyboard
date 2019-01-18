@@ -83,12 +83,24 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="NTI-IJ-1HH"/>
                                 </connections>
                             </tableView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Results Available" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o4k-TC-UQ6">
+                                <rect key="frame" x="82" y="433" width="250" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="6W0-IM-1bt"/>
+                                    <constraint firstAttribute="height" constant="30" id="ps2-Hx-Enl"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.09834009665" green="0.40528545240000002" blue="0.62249089079999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="sQn-wv-Kds" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="7Gu-kI-OyK"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="sQn-wv-Kds" secondAttribute="bottom" constant="-34" id="ACG-BH-tgv"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="sQn-wv-Kds" secondAttribute="trailing" id="abr-Np-ASA"/>
+                            <constraint firstItem="o4k-TC-UQ6" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="e29-ry-THT"/>
+                            <constraint firstItem="o4k-TC-UQ6" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gFn-cc-duJ"/>
                             <constraint firstItem="sQn-wv-Kds" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="wvH-ES-z1P"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -96,6 +108,7 @@
                     <navigationItem key="navigationItem" title="My Shopify Collections" id="pRI-w2-e0I"/>
                     <connections>
                         <outlet property="collectionsTableView" destination="sQn-wv-Kds" id="0fT-td-J4U"/>
+                        <outlet property="noResultsLabel" destination="o4k-TC-UQ6" id="ka0-8L-AOo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
