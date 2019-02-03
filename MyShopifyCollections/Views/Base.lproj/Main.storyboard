@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--My Shopify Collections-->
+        <!--Shopify Collections-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="CollectionsViewController" customModule="MyShopifyCollections" customModuleProvider="target" sceneMemberID="viewController">
@@ -21,6 +21,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sQn-wv-Kds">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" red="0.09834009665" green="0.40528545240000002" blue="0.62249089079999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="50"/>
                                 <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search" translucent="NO" id="q5M-rq-Bej">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -39,7 +40,7 @@
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="collectionTableViewCell" rowHeight="99" id="rbM-bZ-AtF" customClass="CollectionsTableViewCell" customModule="MyShopifyCollections" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="84" width="414" height="99"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rbM-bZ-AtF" id="vNO-4M-hwQ">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rbM-bZ-AtF" id="vNO-4M-hwQ">
                                             <rect key="frame" x="0.0" y="0.0" width="376" height="99"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
@@ -50,13 +51,13 @@
                                                         <constraint firstAttribute="width" constant="50" id="rqn-vH-Ou1"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fJF-yk-ICJ">
-                                                    <rect key="frame" x="85" y="24.5" width="206" height="50"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fJF-yk-ICJ">
+                                                    <rect key="frame" x="85" y="24.5" width="250" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="O0N-qh-CGB"/>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="zdw-jV-bCU"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="zdw-jV-bCU"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="16"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -105,7 +106,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="My Shopify Collections" id="pRI-w2-e0I"/>
+                    <navigationItem key="navigationItem" title="Shopify Collections" id="pRI-w2-e0I"/>
                     <connections>
                         <outlet property="collectionsTableView" destination="sQn-wv-Kds" id="0fT-td-J4U"/>
                         <outlet property="noResultsLabel" destination="o4k-TC-UQ6" id="ka0-8L-AOo"/>
@@ -179,6 +180,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FFU-He-xbD">
                                 <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="100"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="productsTableViewCell" rowHeight="154" id="wVy-7h-RIb" customClass="ProductsTableViewCell" customModule="MyShopifyCollections" customModuleProvider="target">

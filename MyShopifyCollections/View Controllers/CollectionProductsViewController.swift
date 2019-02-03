@@ -79,9 +79,9 @@ class CollectionProductsViewController:UIViewController,UITableViewDelegate,UITa
 			self.collectionImageView.image = image
 		}
 
-		self.productsTableView.contentInset = UIEdgeInsets(top: headerView.frame.height, left: 0, bottom: 0, right: 0)
+		self.productsTableView.contentInset = UIEdgeInsets(top: headerView.frame.height, left: 0, bottom: 50, right: 0)
 	}
-	
+
 	private func setTableData(forData data:[Product])-> Bool {
 		for product in data {
 			var total = 0
