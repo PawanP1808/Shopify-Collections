@@ -25,6 +25,7 @@ class CollectionsViewController: UIViewController,UITableViewDataSource,UITableV
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		self.setupTableView()
 		self.retrieveTableData()
 	}
 
@@ -38,6 +39,11 @@ class CollectionsViewController: UIViewController,UITableViewDataSource,UITableV
 			self.collectionsTableView.reloadData()
 			self.hideModalSpinner(indicator: self.activityIndicator)
 		}
+	}
+
+	private func setupTableView(){
+		let insets = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
+		self.collectionsTableView.contentInset = insets
 	}
 
 	//MARK:TABLEVIEW DELEGATES
