@@ -15,6 +15,8 @@ class CollectionsViewController: UIViewController,UITableViewDataSource,UITableV
 	
 	@IBOutlet weak var noResultsLabel: UILabel!
 	
+	@IBOutlet weak var searchBar: UISearchBar!
+	
 	// MARK: -- Properties
 	private var collectionsData:[Collections]?
 	private var currentCollectionsData:[Collections]?
@@ -89,6 +91,20 @@ class CollectionsViewController: UIViewController,UITableViewDataSource,UITableV
 			self.noResultsLabel.isHidden = true
 		}
 		collectionsTableView.reloadData()
+	}
+
+	//MARK -- SCROLL(TABLE) VIEW DELEGATES
+
+	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+		if scrollView == collectionsTableView {
+			searchBar.resignFirstResponder()
+		}
+	}
+
+	func scrollViewDidScroll(_ scrollView: UIScrollView) {
+		if scrollView == collectionsTableView {
+			searchBar.resignFirstResponder()
+		}
 	}
 
 	//MARK: SEGUE TO COLLECTION PRODUCTS

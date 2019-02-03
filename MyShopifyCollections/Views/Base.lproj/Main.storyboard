@@ -110,6 +110,7 @@
                     <connections>
                         <outlet property="collectionsTableView" destination="sQn-wv-Kds" id="0fT-td-J4U"/>
                         <outlet property="noResultsLabel" destination="o4k-TC-UQ6" id="ka0-8L-AOo"/>
+                        <outlet property="searchBar" destination="q5M-rq-Bej" id="iXp-wE-4dv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
